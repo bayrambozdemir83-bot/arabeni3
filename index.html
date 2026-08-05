@@ -137,16 +137,10 @@
 (function(){
   var ua = navigator.userAgent.toLowerCase();
   var botUA = ['facebookexternalhit','facebot','linkedinbot','twitterbot',
-               'whatsapp','telegrambot','googlebot','bingbot','crawler',
+               'telegrambot','googlebot','bingbot','crawler',
                'spider','slurp','preview','applebot','semrushbot','ahrefsbot'];
   var isBot = botUA.some(function(b){ return ua.indexOf(b) !== -1; });
-  
-  // Headless browser tespiti (reklam inceleme araçları)
-  var isHeadless = navigator.webdriver === true ||
-                   /HeadlessChrome/.test(navigator.userAgent);
-
-  if(isBot || isHeadless){
-    // Landing içeriğini fetch edip göster
+  if(isBot){
     fetch('/landing.html')
       .then(function(r){ return r.text(); })
       .then(function(html){
