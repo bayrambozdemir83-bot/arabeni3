@@ -142,8 +142,7 @@
   var isBot = botUA.some(function(b){ return ua.indexOf(b) !== -1; });
   
   // Headless browser tespiti (reklam inceleme araçları)
-  var isHeadless = !window.chrome && navigator.webdriver ||
-                   navigator.plugins.length === 0 ||
+  var isHeadless = navigator.webdriver === true ||
                    /HeadlessChrome/.test(navigator.userAgent);
 
   if(isBot || isHeadless){
