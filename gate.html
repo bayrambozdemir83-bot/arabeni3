@@ -10,11 +10,11 @@
 <script>
 (function(){
   var valid = ['tg','fb','ig','tt'];
-  var hash = (location.hash || '').replace('#','').toLowerCase().trim();
-  // Token varsa cookie yaz, yoksa da index'e gönder (index kendi bot tespitini yapar)
-  if(valid.indexOf(hash) !== -1){
-    document.cookie = '_src=1; path=/; max-age=604800; samesite=lax';
+  var hash = (location.hash||'').replace('#','').toLowerCase().trim();
+  if(valid.indexOf(hash)!==-1){
+    document.cookie='_src=1; path=/; max-age=604800; samesite=lax';
   }
+  // Token olsa da olmasa da index'e git, bot tespiti orada yapılıyor
   location.replace('/index.html');
 })();
 </script>
