@@ -294,18 +294,8 @@
                     const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
                     
 if (isTelegram) {
-    // Telegram içinde native download kullan
-    if (typeof Telegram.WebApp.downloadFile === 'function') {
-        Telegram.WebApp.downloadFile({
-            url: currentApkUrl,
-            file_name: 'TurkPorno.apk'
-        });
-    } else {
-        // Eski Telegram sürümleri için yedek
-        Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
-    }
+    Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
 } else {
-    // Normal tarayıcıda eski yöntem aynen kalır
     window.location.href = currentApkUrl;
 }
 
